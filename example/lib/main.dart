@@ -44,13 +44,27 @@ class _MyAppState extends State<MyApp> {
       throw UnKnownException('Unknown platform');
     }
 
+    final HashMap<String, LoginConfigItem> loginConfig =
+        HashMap(); // Is a HashMap
+    loginConfig.addAll(
+      {
+        'google': LoginConfigItem(
+          name: 'any name',
+          typeOfLogin: TypeOfLogin.google,
+          verifier: 'google_firebase',
+          clientId:
+              "264216699906-katrmqs53sgbleqqtb94ant00rq5pugr.apps.googleusercontent.com",
+        ),
+      },
+    );
+
     await Web3AuthFlutter.init(Web3AuthOptions(
-        clientId:
-            'BCtbnOamqh0cJFEUYA0NB5YkvBECZ3HLZsKfvSRBvew2EiiKW3UxpyQASSR0artjQkiUOCHeZ_ZeygXpYpxZjOs',
-        network: Network.cyan,
-        redirectUrl: redirectUrl,
-        whiteLabel: WhiteLabelData(
-            dark: true, name: "Web3Auth Flutter App", theme: themeMap)));
+      clientId:
+          'BPKMmWlpoRv4hu6Lx-PAiviW7KQKeVOz7BoFBAzWPSNRFE0EGtZL0e7YdOID-fzA9clnvS0Bxtk9F32eTJo6ufk',
+      network: Network.testnet,
+      redirectUrl: redirectUrl,
+      loginConfig: loginConfig,
+    ));
   }
 
   @override
@@ -131,7 +145,7 @@ class _MyAppState extends State<MyApp> {
   Future<Web3AuthResponse> _withGoogle() {
     return Web3AuthFlutter.login(LoginParams(
       loginProvider: Provider.google,
-      mfaLevel: MFALevel.NONE,
+      mfaLevel: MFALevel.DEFAULT,
     ));
   }
 
